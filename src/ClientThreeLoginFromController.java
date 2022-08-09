@@ -15,7 +15,7 @@ public class ClientThreeLoginFromController {
     public void btnLoginOnAction(ActionEvent actionEvent) throws IOException {
         userName = txtUserName.getText();
         if(!userName.equals(null)){
-            URL resource = getClass().getResource("ClientForm.fxml");
+            URL resource = getClass().getResource("ClientThreeForm.fxml");
             Parent load = FXMLLoader.load(resource);
             Scene scene = new Scene(load);
             Stage stage = new Stage();

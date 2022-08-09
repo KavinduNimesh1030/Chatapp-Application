@@ -22,14 +22,15 @@ public class ClientThreeFormController {
         System.out.println("Enter your username for the group chat : ");
         txtArea.appendText("Enter your username for the group chat : ");
 
-        // getName();
         try {
             socket = new Socket("localhost",portNumber);
            /* bufferedWriter =new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));*/
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataInputStream = new DataInputStream(socket.getInputStream());
+            getName();
             listenForMassage();
+
 
         } catch (IOException e) {
             closeEveryThing(socket,dataInputStream,dataOutputStream);
@@ -77,6 +78,22 @@ public class ClientThreeFormController {
             e.printStackTrace();
         }
     }
+    private void getName() {
+
+        try {
+            while (socket.isConnected()) {
+                String name = ClientThreeLoginFromController.getUserName();
+                System.out.println(name);
+                dataOutputStream.writeUTF(name);
+                dataOutputStream.flush();
+                break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 

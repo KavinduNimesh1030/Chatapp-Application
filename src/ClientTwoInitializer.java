@@ -13,7 +13,7 @@ public class ClientTwoInitializer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("ClientTwoForm.fxml"))));
+        primaryStage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("ClientTwoLoginFrom.fxml"))));
         primaryStage.show();
 
     }

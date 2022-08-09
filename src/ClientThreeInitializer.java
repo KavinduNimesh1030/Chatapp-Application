@@ -13,7 +13,7 @@ public class ClientThreeInitializer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("ClientThreeForm.fxml"))));
+        primaryStage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("ClientThreeLoginFrom.fxml"))));
         primaryStage.show();
 
     }
