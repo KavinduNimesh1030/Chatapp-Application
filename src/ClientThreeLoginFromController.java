@@ -8,9 +8,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class ClientLoginFormController {
+public class ClientThreeLoginFromController {
     public TextField txtUserName;
-    private  static  String userName ;
+    private  static String userName ;
 
     public void btnLoginOnAction(ActionEvent actionEvent) throws IOException {
         userName = txtUserName.getText();

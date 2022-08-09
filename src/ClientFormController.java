@@ -23,17 +23,34 @@ public class ClientFormController {
         System.out.println("Enter your username for the group chat : ");
         txtArea.appendText("Enter your username for the group chat : ");
 
-        // getName();
+
         try {
             socket = new Socket("localhost",portNumber);
            /* bufferedWriter =new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));*/
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataInputStream = new DataInputStream(socket.getInputStream());
+            getName();
             listenForMassage();
 
         } catch (IOException e) {
             closeEveryThing(socket,dataInputStream,dataOutputStream);
+        }
+
+    }
+
+    private void getName() {
+
+        try {
+            while (socket.isConnected()) {
+                String name = ClientLoginFormController.getUserName();
+                System.out.println(name);
+                dataOutputStream.writeUTF(name);
+                dataOutputStream.flush();
+                break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -100,11 +117,14 @@ public class ClientFormController {
 
 
             while (socket.isConnected()){
-                if(count==0){
-                    dataOutputStream.writeUTF("Kavindu");
+               /* if(count==0){
+
+                    String name = ClientLoginFormController.getUserName();
+                    System.out.println(name);
+                    dataOutputStream.writeUTF(name);
                     dataOutputStream.flush();
                     break;
-                }else {
+                }else {*/
                /* String massageToSend=txtMassage.getText();
                 bufferedWriter.write(userName+" : "+ massageToSend);
                 bufferedWriter.newLine();
@@ -113,7 +133,7 @@ public class ClientFormController {
                     txtArea.appendText("\nme : " + txtMassage.getText());
                     dataOutputStream.flush();
                     break;
-                }
+               // }
             }
             count++;
         } catch (IOException e) {

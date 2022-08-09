@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class ClientLoginFormController {
+public class ClientTwoLoginFromController {
     public TextField txtUserName;
     private  static  String userName ;
 
