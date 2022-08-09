@@ -17,6 +17,7 @@ public class ClientFormController {
     String userName;
     DataOutputStream dataOutputStream;
     DataInputStream dataInputStream;
+    int count = 0;
 
     public void initialize() {
         System.out.println("Enter your username for the group chat : ");
@@ -32,7 +33,7 @@ public class ClientFormController {
             listenForMassage();
 
         } catch (IOException e) {
-            closeEveryThing(socket,bufferedReader,bufferedWriter);
+            closeEveryThing(socket,dataInputStream,dataOutputStream);
         }
 
     }
@@ -54,7 +55,7 @@ public class ClientFormController {
                         System.out.println(massage);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        closeEveryThing(socket,bufferedReader,bufferedWriter);
+                        closeEveryThing(socket,dataInputStream,dataOutputStream);
                     }
 
                 }
@@ -62,13 +63,13 @@ public class ClientFormController {
         }).start();
     }
 
-    private void closeEveryThing(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+    private void closeEveryThing(Socket socket, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         try {
-            if (bufferedReader!=null){
-                bufferedReader.close();
+            if (dataInputStream!=null){
+                dataInputStream.close();
             }
-            if(bufferedWriter!=null){
-                bufferedWriter.close();
+            if(dataOutputStream!=null){
+                dataOutputStream.close();
             }
             if(socket!=null){
                 socket.close();
@@ -97,18 +98,26 @@ public class ClientFormController {
             dataOutputStream.writeUTF(userName);
             dataOutputStream.flush();*/
 
+
             while (socket.isConnected()){
+                if(count==0){
+                    dataOutputStream.writeUTF("Kavindu");
+                    dataOutputStream.flush();
+                    break;
+                }else {
                /* String massageToSend=txtMassage.getText();
                 bufferedWriter.write(userName+" : "+ massageToSend);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();*/
-                dataOutputStream.writeUTF(txtMassage.getText());
-                txtArea.appendText("\nme : " + txtMassage.getText());
-                dataOutputStream.flush();
-                break;
+                    dataOutputStream.writeUTF(txtMassage.getText());
+                    txtArea.appendText("\nme : " + txtMassage.getText());
+                    dataOutputStream.flush();
+                    break;
+                }
             }
+            count++;
         } catch (IOException e) {
-            closeEveryThing(socket,bufferedReader,bufferedWriter);
+            closeEveryThing(socket,dataInputStream,dataOutputStream);
             e.printStackTrace();
         }
     }

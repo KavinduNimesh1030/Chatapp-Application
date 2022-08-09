@@ -29,11 +29,11 @@ public class ClientHandler implements Runnable {
            this.in = new DataInputStream(socket.getInputStream());
             this.clientUserName = in.readUTF();
             this.clientHandlers.add(this);
-            broadcastMassage("Server : " + clientUserName + " has entered tha chat",1);
+            broadcastMassage("Server : " + clientUserName + " has entered the chat",1);
 
         } catch (IOException e) {
             e.printStackTrace();
-            closeEverything(socket, bufferedReader, bufferedWriter);
+            closeEverything(socket,in,out);
         }
     }
 
@@ -49,7 +49,7 @@ public class ClientHandler implements Runnable {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                closeEverything(socket, bufferedReader, bufferedWriter);
+                closeEverything(socket, in, out);
 
             }
 
@@ -68,7 +68,7 @@ public class ClientHandler implements Runnable {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                closeEverything(socket, bufferedReader, bufferedWriter);
+                closeEverything(socket,in,out);
 
             }
 
@@ -85,20 +85,20 @@ public class ClientHandler implements Runnable {
                 broadcastMassage(massageFromClient);
             } catch (IOException e) {
                 e.printStackTrace();
-                closeEverything(socket, bufferedReader, bufferedWriter);
+                closeEverything(socket, in, out);
                 break;
             }
         }
     }
 
-    private void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+    private void closeEverything(Socket socket, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         removeClientHandler();
         try {
-            if (bufferedReader!=null){
-                bufferedReader.close();
+            if (dataInputStream!=null){
+                dataInputStream.close();
             }
-            if(bufferedWriter!=null){
-                bufferedWriter.close();
+            if(dataOutputStream!=null){
+                dataOutputStream.close();
             }
             if(socket!=null){
                 socket.close();

@@ -32,7 +32,7 @@ public class ClientTwoFormController {
             listenForMassage();
 
         } catch (IOException e) {
-            closeEveryThing(socket,bufferedReader,bufferedWriter);
+            closeEveryThing(socket,dataInputStream,dataOutputStream);
         }
 
     }
@@ -54,7 +54,7 @@ public class ClientTwoFormController {
                         System.out.println(massage);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        closeEveryThing(socket,bufferedReader,bufferedWriter);
+                        closeEveryThing(socket,dataInputStream,dataOutputStream);
                     }
 
                 }
@@ -62,13 +62,13 @@ public class ClientTwoFormController {
         }).start();
     }
 
-    private void closeEveryThing(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
+    private void closeEveryThing(Socket socket, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         try {
-            if (bufferedReader!=null){
-                bufferedReader.close();
+            if (dataInputStream!=null){
+                dataInputStream.close();
             }
-            if(bufferedWriter!=null){
-                bufferedWriter.close();
+            if(dataOutputStream!=null){
+                dataOutputStream.close();
             }
             if(socket!=null){
                 socket.close();
@@ -112,7 +112,7 @@ public class ClientTwoFormController {
                 break;
             }
         } catch (IOException e) {
-            closeEveryThing(socket,bufferedReader,bufferedWriter);
+            closeEveryThing(socket,dataInputStream,dataOutputStream);
             e.printStackTrace();
         }
     }
