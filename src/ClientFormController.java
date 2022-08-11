@@ -1,9 +1,10 @@
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ClientFormController {
@@ -11,6 +12,7 @@ public class ClientFormController {
     final int portNumber = 5000;
     public TextArea txtArea;
     public TextField txtMassage;
+    public AnchorPane emojiPane;
     Socket socket;
     BufferedReader bufferedReader;
     BufferedWriter bufferedWriter;
@@ -20,17 +22,16 @@ public class ClientFormController {
     int count = 0;
 
     public void initialize() {
-        System.out.println("Enter your username for the group chat : ");
-        txtArea.appendText("Enter your username for the group chat : ");
-
-
+        emojiPane.setVisible(false);
         try {
+
             socket = new Socket("localhost",portNumber);
            /* bufferedWriter =new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));*/
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             dataInputStream = new DataInputStream(socket.getInputStream());
             getName();
+
             listenForMassage();
 
         } catch (IOException e) {
@@ -143,4 +144,20 @@ public class ClientFormController {
     }
 
 
+    public void emoji1OnAction(MouseEvent keyEvent) {
+        txtMassage.appendText("\uD83D\uDE42");
+    }
+
+    public void emoji2OnAction(MouseEvent keyEvent) {
+        txtMassage.appendText("\uD83D\uDE01");
+    }
+
+    public void openEmojiPaneOnAction(MouseEvent keyEvent) {
+        if(!emojiPane.isVisible()){
+            emojiPane.setVisible(true);
+        }else {
+            emojiPane.setVisible(false);
+        }
+
+    }
 }

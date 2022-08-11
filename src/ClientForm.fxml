@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientFormController">
+<AnchorPane prefHeight="570.0" prefWidth="468.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientFormController">
    <children>
-      <TextArea fx:id="txtArea" editable="false" layoutX="13.0" layoutY="43.0" prefHeight="292.0" prefWidth="574.0" />
-      <Text layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Client">
+      <TextArea fx:id="txtArea" editable="false" layoutX="13.0" layoutY="53.0" prefHeight="462.0" prefWidth="442.0" />
+      <Text layoutX="52.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ChatApp">
          <font>
-            <Font name="System Bold" size="23.0" />
+            <Font name="Arial Rounded MT Bold" size="23.0" />
          </font>
       </Text>
-      <TextField fx:id="txtMassage" layoutX="14.0" layoutY="347.0" prefHeight="25.0" prefWidth="449.0" />
-      <Button layoutX="479.0" layoutY="347.0" mnemonicParsing="false" onAction="#sendOnAction" prefHeight="25.0" prefWidth="110.0" text="Send" />
+      <TextField fx:id="txtMassage" layoutX="52.0" layoutY="531.0" prefHeight="25.0" prefWidth="357.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: black;" />
+      <ImageView fitHeight="41.0" fitWidth="41.0" layoutX="420.0" layoutY="522.0" pickOnBounds="true">
+         <image>
+            <Image url="@assert/Send%201.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="414.0" layoutY="522.0" mnemonicParsing="false" onAction="#sendOnAction" prefHeight="41.0" prefWidth="41.0" style="-fx-background-color: trancpraint;" />
+      <AnchorPane fx:id="emojiPane" layoutX="14.0" layoutY="407.0" prefHeight="107.0" prefWidth="442.0" style="-fx-background-color: #aab2bf;">
+         <children>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="8.0" layoutY="7.0" onMouseClicked="#emoji1OnAction" pickOnBounds="true">
+               <image>
+                  <Image url="@assert/smile.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="45.0" layoutY="7.0" onMouseClicked="#emoji2OnAction" pickOnBounds="true">
+               <image>
+                  <Image url="@assert/smiling.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="16.0" layoutY="531.0" onMouseClicked="#openEmojiPaneOnAction" pickOnBounds="true">
+         <image>
+            <Image url="@assert/smiling.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true">
+         <image>
+            <Image url="@assert/whatsapp%20(1)%20(1).png" />
+         </image>
+      </ImageView>
+      <FontAwesomeIconView glyphName="CAMERA" layoutX="384.0" layoutY="550.0" size="15" wrappingWidth="18.0" />
    </children>
 </AnchorPane>
