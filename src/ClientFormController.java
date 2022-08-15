@@ -138,6 +138,7 @@ public class ClientFormController {
                     dataOutputStream.writeUTF(txtMassage.getText());
                     txtArea.appendText("\nme : " + txtMassage.getText());
                     dataOutputStream.flush();
+                    txtMassage.clear();
 
                     break;
                // }
