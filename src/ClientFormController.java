@@ -1,8 +1,10 @@
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.Socket;
@@ -13,6 +15,9 @@ public class ClientFormController {
     public TextArea txtArea;
     public TextField txtMassage;
     public AnchorPane emojiPane;
+    public Button closeButton;
+    public Button btnMaximize;
+    public Button btnMinimize;
     Socket socket;
     BufferedReader bufferedReader;
     BufferedWriter bufferedWriter;
@@ -133,6 +138,7 @@ public class ClientFormController {
                     dataOutputStream.writeUTF(txtMassage.getText());
                     txtArea.appendText("\nme : " + txtMassage.getText());
                     dataOutputStream.flush();
+
                     break;
                // }
             }
@@ -159,5 +165,18 @@ public class ClientFormController {
             emojiPane.setVisible(false);
         }
 
+    }
+
+    public void btnCloseButtonOnAction(ActionEvent actionEvent) {
+    }
+
+    public void btnMaximizeOnAction(ActionEvent actionEvent) {
+
+    }
+
+    public void btnMinimizeOnAction(ActionEvent actionEvent) {
+        Stage stage = (Stage)((Button)actionEvent.getSource()).getScene().getWindow();
+        // is stage minimizable into task bar. (true | false)
+        stage.setIconified(true);
     }
 }

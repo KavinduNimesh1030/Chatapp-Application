@@ -55,9 +55,9 @@ public class ClientThreeFormController {
                        /* msgFromGroupChat = bufferedReader.readLine();
                         System.out.println(msgFromGroupChat);
                         txtArea.appendText(msgFromGroupChat);*/
-                        massage = dataInputStream.readUTF();
+                    /*    massage = dataInputStream.readUTF();
                         txtArea.appendText("\n"+massage);
-                        System.out.println(massage);
+                        System.out.println(massage);*/
                         byte[] sizeAr = new byte[4];
                         dataInputStream.read(sizeAr);
                         int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
@@ -66,11 +66,26 @@ public class ClientThreeFormController {
                         dataInputStream.read(imageAr);
                         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));
 
+
                         //System.out.println("Received " + image.getHeight() + "x" + image.getWidth());
-                        ImageView imageView = new ImageView();
-                        imageView.setImage(Image.impl_fromPlatformImage(image));
                        // txtArea.getChildrenUnmodifiable().addAll(imageView);
-                       txtArea.appendText(String.valueOf(dataInputStream.read(imageAr)));
+                       txtArea.appendText(String.valueOf(imageAr));
+                        System.out.println(ImageIO.read(new ByteArrayInputStream(imageAr)));
+                       // System.out.println("Received " + image.getHeight() + "x" + image.getWidth() );
+
+                      /* try{
+                           if(!image.equals(null)) {
+                               System.out.println("\nImage Height : " + image.getHeight() + " Image Height " + image.getWidth());
+                               txtArea.appendText("\nImage Height : " + image.getHeight() + " Image Height " + image.getWidth());
+                           }
+
+                       }catch (NullPointerException e){
+                          e.printStackTrace();
+
+                       }*/
+
+
+
                        break;
 
                     /*    byte[] sizeAr = new byte[4];

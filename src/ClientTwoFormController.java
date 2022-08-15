@@ -1,29 +1,24 @@
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 
 public class ClientTwoFormController {
 
+    static BufferedImage bimg;
     final int portNumber = 5000;
     public TextArea txtArea;
     public TextField txtMassage;
@@ -40,13 +35,17 @@ public class ClientTwoFormController {
     TextFlow textFlow;
     Text text;
     Image newimg;
-    static BufferedImage bimg;
     byte[] bytes;
 
-    int count =0;
+    int count;
     String Path;
     File file1;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
+    String path;
+    BufferedImage image1 ;
 
+    static int mode = 0;
 
     public void initialize() {
 
@@ -61,13 +60,11 @@ public class ClientTwoFormController {
             listenForMassage();
 
 
-
         } catch (IOException e) {
             closeEveryThing(socket, dataInputStream, dataOutputStream);
         }
 
     }
-
 
     public void listenForMassage() {
         new Thread(new Runnable() {
@@ -182,9 +179,14 @@ public class ClientTwoFormController {
                 bufferedWriterc.write(userName+" : "+ massageToSend);
                 bufferedWriter.newLine();
                 bufferedWriter.flush();*/
-                if(count>0){
+                System.out.println("count "+count);
+                if (count>0) {
+
+
+                    new Mode().setMode(1);
+                    System.out.println("mode value "+new Mode().getMode());
                     System.out.println(file1);
-                    BufferedImage image = ImageIO.read(new File(String.valueOf(file1)));
+                    BufferedImage image = ImageIO.read(new File(file1.getAbsolutePath()));
                     //Image image1 =new Image("assert/Kavindu.JPG");
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     ImageIO.write(image, "jpg", byteArrayOutputStream);
@@ -194,13 +196,20 @@ public class ClientTwoFormController {
                     dataOutputStream.write(byteArrayOutputStream.toByteArray());
                     // imgvImageView.setImage(image1);
                     txtArea.appendText(String.valueOf(image));
+                    System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
                     dataOutputStream.flush();
+
+                    count = 0;
                     break;
 
-                }else {
+                } else {
+                    System.out.println("Massage");
+                    // oos.writeObject(new Message<String>(txtMassage.getText()));
+                    new Message<String>().setPayload(txtMassage.getText());
                     dataOutputStream.writeUTF(txtMassage.getText());
                     txtArea.appendText("\nme : " + txtMassage.getText());
                     dataOutputStream.flush();
+
                     break;
                 }
 
@@ -240,8 +249,6 @@ public class ClientTwoFormController {
                 txtArea.requestFocus();*/
 
 
-
-
             }
         } catch (IOException e) {
             closeEveryThing(socket, dataInputStream, dataOutputStream);
@@ -249,9 +256,9 @@ public class ClientTwoFormController {
         }
     }
 
-    String path;
-    public void btnImageSendOnAction(ActionEvent actionEvent)  {
+    public void btnImageSendOnAction(ActionEvent actionEvent) {
 
+        new Message<BufferedImage>().setPayload(image1);
        /* try {
             //String appData = System.getenv("APPDATA");
             //File appDataDir = new File(appData);
@@ -268,17 +275,26 @@ public class ClientTwoFormController {
         }*/
 
         //File file1 = new File(path+"\\Kavindu.jpg");
-
-        JFileChooser fileChooser = new JFileChooser();
-        int res = fileChooser.showSaveDialog(null);
-        if(res == JFileChooser.APPROVE_OPTION) {
-             File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
-            System.out.println(file);
-            file1 = file;
-            txtMassage.setText(String.valueOf(file));
-
+        try {
+            socket.setKeepAlive(true);
+        } catch (SocketException e) {
+            e.printStackTrace();
         }
-        count++;
+        if (socket.isConnected()) {
+            JFileChooser fileChooser = new JFileChooser();
+            int res = fileChooser.showSaveDialog(null);
+            if (res == JFileChooser.APPROVE_OPTION) {
+                File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                System.out.println(file);
+                file1 = file;
+                txtMassage.setText(String.valueOf(file));
+                count++;
+            }
+
+        } else {
+            closeEveryThing(socket, dataInputStream, dataOutputStream);
+        }
+
         //socket = new Socket("localhost", portNumber);
        /* try {
             while (socket.isConnected()) {
@@ -300,5 +316,11 @@ public class ClientTwoFormController {
             closeEveryThing(socket, dataInputStream, dataOutputStream);
             e.printStackTrace();
         }*/
+    }
+    public static int getMode(){
+        return mode;
+    }
+    public static void setMode(){
+        mode =0;
     }
 }

@@ -79,7 +79,60 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    @Override
+    /* @Override
+     public void run() {
+         String massageFromClient;
+
+         while (socket.isConnected()) {
+
+
+             try {
+                 int mode = new Mode().getMode();
+                 System.out.println("mode "+mode);
+                 Message<?> msg = (Message<?>)new Message<>();
+                 if (mode == 1) {
+                     System.out.println("image");
+                     try {
+                         int size = 0;
+                         byte[] sizeAr = new byte[4];
+                         in.read(sizeAr);
+                         size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
+                         byte[] imageAr = new byte[size];
+                         // in.read(imageAr);
+                         broadcastMassage(imageAr);
+                         new Mode().setMode(0);
+                         break;
+
+                     }catch (NegativeArraySizeException e){
+                         e.printStackTrace();
+                     }
+
+                 } else if(mode == 0) {
+                     if(new Mode().getMode()==0) {
+                         System.out.println("massage");
+                         if(in.readUTF().isEmpty()) {
+                             massageFromClient = in.readUTF();
+                             broadcastMassage(massageFromClient);
+
+                         }else {
+                             System.out.println("Image code");
+                         }
+
+
+                     }else if(new Mode().getMode()==1){
+                         new Mode().setMode(1);
+                     }
+
+                 }
+             } catch (IOException e) {
+                 e.printStackTrace();
+                 closeEverything(socket, in, out);
+                 break;
+             }
+
+         }
+     }
+ */
     public void run() {
         String massageFromClient;
 
@@ -92,35 +145,44 @@ public class ClientHandler implements Runnable {
                 closeEverything(socket, in, out);
                 break;
             }
+
         }
     }
- /*  @Override
-   public void run() {
-       String massageFromClient;
 
-       while (socket.isConnected()) {
-           try {
-               *//*massageFromClient = in.readUTF();
-               broadcastMassage(massageFromClient);*//*
-               byte[] sizeAr = new byte[4];
-               in.read(sizeAr);
-               int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
-                try{
-               byte[] imageAr = new byte[size];
-               broadcastMassage(imageAr);
-           } catch (NegativeArraySizeException nase) {
-               nase.printStackTrace();
-           }
-               //in.read(imageAr);
+    /* @Override
+    public void run() {
+        String massageFromClient;
 
-           } catch (IOException e) {
-               e.printStackTrace();
-               closeEverything(socket, in, out);
-               break;
-           }
-       }*/
-  // }
+        while (socket.isConnected()) {
+                try {
 
+                    int size = 0;
+                    try {
+                        byte[] sizeAr = new byte[4];
+                        in.read(sizeAr);
+                         size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
+                        byte[] imageAr = new byte[size];
+                       // in.read(imageAr);
+                        broadcastMassage(imageAr);
+
+                        break;
+                    }catch (NegativeArraySizeException e) {
+
+
+
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    closeEverything(socket, in, out);
+                    break;
+                }
+                //in.read(imageAr);
+
+
+        }
+    }*/
     private void broadcastMassage(byte[] imageAr) {
         for (ClientHandler clientHandler : clientHandlers) {
             try {
@@ -128,7 +190,8 @@ public class ClientHandler implements Runnable {
                     /*clientHandler.bufferedWriter.write(massageToSend);
                     clientHandler.bufferedWriter.newLine();
                     clientHandler.bufferedWriter.flush();*/
-                    clientHandler.out.writeUTF(clientUserName + " : " + imageAr);
+                    clientHandler.out.write(imageAr);
+
                     clientHandler.out.flush();
 
                 }
